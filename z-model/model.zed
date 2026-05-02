@@ -1,0 +1,79 @@
+[VOTER, CANDIDATE, TOKEN]
+
+VotingSystem
+registered: ℙ VOTER
+authenticated: ℙ VOTER
+tokens: VOTER ⇸ TOKEN
+usedTokens: ℙ TOKEN
+votes: TOKEN → CANDIDATE
+
+----------------------------------
+
+InitVotingSystem
+VotingSystem
+registered = ∅
+authenticated = ∅
+tokens = ∅
+usedTokens = ∅
+votes = ∅
+
+----------------------------------
+
+Invariant1
+authenticated ⊆ registered
+
+----------------------------------
+
+Invariant2
+dom votes ⊆ ran tokens
+
+----------------------------------
+
+Invariant3
+usedTokens ⊆ ran tokens
+
+----------------------------------
+
+Register
+ΔVotingSystem
+v?: VOTER
+
+v? ∉ registered
+
+registered' = registered ∪ {v?}
+authenticated' = authenticated
+tokens' = tokens
+usedTokens' = usedTokens
+votes' = votes
+
+----------------------------------
+
+Authenticate
+ΔVotingSystem
+v?: VOTER
+t?: TOKEN
+
+v? ∈ registered
+v? ∉ authenticated
+
+authenticated' = authenticated ∪ {v?}
+tokens' = tokens ∪ {v? ↦ t?}
+registered' = registered
+usedTokens' = usedTokens
+votes' = votes
+
+----------------------------------
+
+CastVote
+ΔVotingSystem
+t?: TOKEN
+c?: CANDIDATE
+
+t? ∈ ran tokens
+t? ∉ usedTokens
+
+votes' = votes ∪ {t? ↦ c?}
+usedTokens' = usedTokens ∪ {t?}
+registered' = registered
+authenticated' = authenticated
+tokens' = tokens
