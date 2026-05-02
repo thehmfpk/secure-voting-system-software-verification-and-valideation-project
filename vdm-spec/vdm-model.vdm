@@ -1,0 +1,63 @@
+types
+
+Voter = token;
+Candidate = token;
+Token = token;
+
+--------------------------------------------
+
+state VotingSystem of
+  registered : set of Voter
+  authenticated : set of Voter
+  tokens : map Voter to Token
+  usedTokens : set of Token
+  votes : map Token to Candidate
+inv mk_VotingSystem(r, a, t, u, v) ==
+  a subset r and
+  dom v subset ran t and
+  u subset ran t
+end
+
+--------------------------------------------
+
+functions
+
+InitSystem : () -> VotingSystem
+InitSystem() ==
+mk_VotingSystem({}, {}, {|->}, {}, {|->});
+
+--------------------------------------------
+
+operations
+
+--------------------------------------------
+
+Register : Voter ==> ()
+Register(v)
+ext wr registered
+pre v not in set registered
+post registered = registered~ union {v};
+
+--------------------------------------------
+
+Authenticate : Voter * Token ==> ()
+Authenticate(v, t)
+ext wr authenticated, tokens
+pre v in set registered and v not in set authenticated
+post authenticated = authenticated~ union {v} and
+     tokens = tokens~ munion {v |-> t};
+
+--------------------------------------------
+
+CastVote : Token * Candidate ==> ()
+CastVote(t, c)
+ext wr votes, usedTokens
+pre t in set ran tokens and t not in set usedTokens
+post votes = votes~ munion {t |-> c} and
+     usedTokens = usedTokens~ union {t};
+
+--------------------------------------------
+
+GetResults : () ==> map Token to Candidate
+GetResults() ==
+votes;
