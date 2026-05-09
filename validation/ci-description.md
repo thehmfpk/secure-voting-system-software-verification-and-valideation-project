@@ -3,18 +3,21 @@
 ## Tool Used
 GitHub Actions
 
-## Purpose
-To validate project structure automatically.
+## Objective
+To automatically validate the Secure Voting System repository structure and required SVV deliverables.
 
-## Validation Checks
+## Pipeline Validation
+
+The CI pipeline verifies:
 - requirements folder
 - z-model
 - vdm-spec
 - alloy-model
-- validation
+- validation folder
 
 ## Result
-Pipeline executed successfully.
+Pipeline executed successfully without errors.
 
 ## Evidence
-Screenshot attached in repository.
+Pipeline execution screenshot attached:
+- ci-evidence.png
