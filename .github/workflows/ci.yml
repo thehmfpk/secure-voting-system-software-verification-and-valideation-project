@@ -1,0 +1,64 @@
+name: SVV Requirement Validation Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-project:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1: Download repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Validate Requirements Folder
+      - name: Validate Requirement Files
+        run: |
+          echo "Checking requirement files..."
+
+          test -d requirements
+          echo "requirements folder exists"
+
+      # Step 3: Validate Z Model
+      - name: Validate Z Model
+        run: |
+          echo "Checking Z notation model..."
+
+          test -d z-model
+          echo "z-model folder exists"
+
+      # Step 4: Validate VDM Specification
+      - name: Validate VDM Specification
+        run: |
+          echo "Checking VDM specification..."
+
+          test -d vdm-spec
+          echo "vdm-spec folder exists"
+
+      # Step 5: Validate Alloy Model
+      - name: Validate Alloy Model
+        run: |
+          echo "Checking Alloy model..."
+
+          test -d alloy-model
+          echo "alloy-model folder exists"
+
+      # Step 6: Validate Validation Folder
+      - name: Validate Validation Folder
+        run: |
+          echo "Checking validation folder..."
+
+          test -d validation
+          echo "validation folder exists"
+
+      # Step 7: Pipeline Completed
+      - name: Pipeline Success
+        run: echo "SVV Validation Pipeline Passed Successfully"
