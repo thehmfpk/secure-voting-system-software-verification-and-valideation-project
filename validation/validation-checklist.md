@@ -1,61 +1,77 @@
 # Validation Checklist – Secure Voting System
 
-## 1. Introduction
+# 1. Introduction
 
-This checklist validates system requirements defined in the SRS using formal models (Z, VDM, Alloy).
+This validation checklist verifies the Secure Voting System requirements using the GitHub Actions CI Pipeline, formal models, and verification modules developed during the SVV project.
 
----
-
-## 2. Functional Requirements Validation
-
-| ID | Requirement | Validation Method | Status | Evidence |
-|----|------------|------------------|--------|----------|
-| FR1 | Voter must be registered before authentication | Z Model | ✔ Passed | State invariant |
-| FR2 | Only authenticated voters receive tokens | VDM + Alloy | ✔ Passed | Precondition + Fact |
-| FR3 | Each voter receives at most one token | Alloy | ✔ Passed | VoterFlow constraint |
-| FR4 | Vote must select a candidate | Alloy | ✔ Passed | VotingFlow |
-| FR5 | Token required to cast vote | VDM + Alloy | ✔ Passed | Operation rule |
+The checklist is directly mapped with the implemented CI workflow jobs defined in the verification pipeline.
 
 ---
 
-## 3. Integrity Constraints Validation
+# 2. CI Pipeline Validation Checklist
 
-| ID | Constraint | Validation Method | Status | Evidence |
-|----|------------|------------------|--------|----------|
-| IC1 | No double voting | Alloy Assertion | ✔ Passed | NoDoubleVoting |
-| IC2 | Token used only once | Alloy Fact | ✔ Passed | VotingFlow |
-| IC3 | Token belongs to only one voter | Alloy Fact | ✔ Passed | TokenSystem |
-
----
-
-## 4. Security Requirements Validation
-
-| ID | Requirement | Validation Method | Status | Evidence |
-|----|------------|------------------|--------|----------|
-| SR1 | Maintain voter anonymity | Alloy Model | ✔ Passed | No direct relation |
-| SR2 | Prevent identity leakage | Design + Alloy | ✔ Passed | Token-based voting |
-| SR3 | Only authenticated access allowed | Z + VDM | ✔ Passed | Preconditions |
+| ID | Pipeline Job | Requirement Verified | Validation Method | Status | Evidence |
+|---|---|---|---|---|---|
+| VC1 | authentication-requirement | Verify voter authentication requirement | GitHub Actions + Requirements Validation | ✔ Passed | Authentication specifications checked |
+| VC2 | duplicate-voting-prevention | Verify one vote per voter constraint | Alloy Verification | ✔ Passed | Alloy model validation |
+| VC3 | candidate-validation | Verify candidate mapping constraints | Alloy Structural Verification | ✔ Passed | Candidate relationship checks |
+| VC4 | vote-integrity-check | Verify vote integrity requirements | VDM Specification Validation | ✔ Passed | Integrity rules verified |
+| VC5 | z-notation-verification | Verify Z notation schemas | Z Formal Modeling | ✔ Passed | Z schemas validated |
+| VC6 | vdm-contract-verification | Verify VDM pre/post conditions | VDM Contract Verification | ✔ Passed | Functional contracts checked |
+| VC7 | alloy-structural-verification | Verify Alloy structural constraints | Alloy Analyzer | ✔ Passed | Facts and assertions verified |
+| VC8 | validation-report-check | Verify validation reports and evidence | Validation Folder Verification | ✔ Passed | Validation documents checked |
+| VC9 | final-verification | Final complete system verification | GitHub Actions Final Job | ✔ Passed | All pipeline jobs completed successfully |
 
 ---
 
-## 5. Counterexample Testing
+# 3. Functional Requirement Verification
 
-| Test Case | Result |
-|----------|--------|
-| Removed token reuse constraint | Counterexample generated |
-| Duplicate voting scenario | ✔ Detected |
+| Requirement ID | Requirement | Verification Source | Status |
+|---|---|---|---|
+| FR1 | Voter must register before authentication | Z Model | ✔ Passed |
+| FR2 | Only authenticated voters receive tokens | VDM + Alloy | ✔ Passed |
+| FR3 | Each voter receives only one token | Alloy Constraint | ✔ Passed |
+| FR4 | Vote must reference valid candidate | Alloy Relations | ✔ Passed |
+| FR5 | Valid token required for voting | VDM Operations | ✔ Passed |
+
+---
+
+# 4. Integrity & Security Verification
+
+| ID | Security Constraint | Verification Method | Status |
+|---|---|---|---|
+| IC1 | No double voting | Alloy Assertion | ✔ Passed |
+| IC2 | Token reuse prevention | Alloy Fact | ✔ Passed |
+| IC3 | Token linked to one voter only | Alloy Constraint | ✔ Passed |
+| SR1 | Maintain voter anonymity | Alloy Structural Design | ✔ Passed |
+| SR2 | Prevent unauthorized access | Z + VDM Preconditions | ✔ Passed |
+
+---
+
+# 5. Counterexample Testing
+
+| Test Scenario | Result |
+|---|---|
+| Removed token uniqueness constraint | Counterexample generated |
+| Duplicate voting attempt | ✔ Detected |
 | Invalid vote without token | ✔ Prevented |
+| Unauthorized authentication | ✔ Blocked |
 
 ---
 
-## 6. Conclusion
+# 6. Conclusion
 
-All requirements are:
-- Formally specified
-- Successfully validated
-- Verified using Alloy Analyzer
+The Secure Voting System validation process successfully verified all project requirements through:
 
-System satisfies:
-- Functional correctness  
-- Integrity constraints  
-- Security properties
+- Z Notation
+- VDM Specifications
+- Alloy Analyzer
+- GitHub Actions CI Pipeline
+
+The CI pipeline validated all project modules and confirmed that the system satisfies:
+
+- Functional correctness
+- Structural consistency
+- Security constraints
+- Integrity requirements
+- Formal verification objectives
